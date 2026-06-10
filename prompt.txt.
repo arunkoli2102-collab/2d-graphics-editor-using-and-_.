@@ -1,0 +1,279 @@
+1. What is the purpose of this program?
+
+Answer:
+This program is a menu-driven 2D graphics editor. It allows users to draw, display, modify, and delete shapes like lines, rectangles, circles, and triangles on a character-based canvas using * and _.
+
+2. Why is a 2D array used?
+
+Answer:
+A 2D array represents rows and columns of the drawing area.
+
+char canvas[H][W];
+
+Each element stores one character of the picture.
+
+3. What is the meaning of W and H?
+#define W 60
+#define H 25
+
+Answer:
+
+W = Width of canvas (60 columns)
+H = Height of canvas (25 rows)
+4. Why is enum used?
+typedef enum {
+    SHAPE_LINE,
+    SHAPE_RECTANGLE,
+    SHAPE_CIRCLE,
+    SHAPE_TRIANGLE
+} ShapeType;
+
+Answer:
+Enum is used to represent shape types using meaningful names instead of numbers.
+
+Example:
+
+SHAPE_LINE = 0
+SHAPE_RECTANGLE = 1
+5. Why is structure used?
+
+Answer:
+Structure stores related data together.
+
+Example:
+
+typedef struct {
+    int x1,y1;
+    int x2,y2;
+} LineData;
+
+Stores coordinates of a line.
+
+6. Why is union used?
+union {
+    LineData line;
+    RectData rect;
+    CircleData circle;
+    TriData tri;
+};
+
+Answer:
+Union saves memory because only one shape's data is stored at a time.
+
+7. What is active variable?
+int active;
+
+Answer:
+It tells whether a shape exists.
+
+1 → Shape is present
+0 → Shape is deleted
+8. What is shape ID?
+shapes[slot].id = next_shape_id++;
+
+Answer:
+Each shape gets a unique ID.
+
+Example:
+
+Line → ID 1
+Circle → ID 2
+Rectangle → ID 3
+
+Used for modification and deletion.
+
+9. What is the use of switch statement?
+switch(choice)
+
+Answer:
+It executes different menu operations based on user choice.
+
+Example:
+
+1 → Display
+2 → Add Shape
+3 → Delete Shape
+10. Why is fgets used?
+fgets(buffer,sizeof(buffer),stdin);
+
+Answer:
+It safely reads user input and prevents input errors.
+
+11. What is strtol()?
+strtol(buffer,&endptr,10);
+
+Answer:
+Converts string input into integer.
+
+Example:
+
+"25" → 25
+12. What is render_canvas()?
+
+Answer:
+It redraws all active shapes onto the canvas.
+
+13. What is clear_canvas()?
+
+Answer:
+It fills the entire canvas with _.
+
+Example:
+
+_____
+_____
+_____
+14. What is display_canvas()?
+
+Answer:
+It prints the canvas on the screen.
+
+15. Why is draw_line() used?
+
+Answer:
+It draws a line between two coordinates.
+
+Example:
+
+(2,2) → (8,2)
+
+Output:
+
+*******
+16. What is Bresenham's Line Algorithm?
+
+Answer:
+It efficiently calculates points of a line using integer arithmetic.
+
+Used in:
+
+draw_line()
+17. What does abs() mean?
+abs(x2-x1)
+
+Answer:
+Returns absolute value.
+
+Example:
+
+abs(5-10)=5
+abs(10-5)=5
+
+Negative sign is removed.
+
+18. Why is boundary checking done?
+if(x>=0 && x<W && y>=0 && y<H)
+
+Answer:
+To prevent drawing outside the canvas and avoid memory errors.
+
+19. How is a rectangle drawn?
+
+Answer:
+By drawing four lines:
+
+Top
+Bottom
+Left
+Right
+
+Using:
+
+draw_line()
+20. How is a triangle drawn?
+
+Answer:
+By drawing three lines between vertices.
+
+draw_line(v1,v2);
+draw_line(v2,v3);
+draw_line(v3,v1);
+21. How is a circle drawn?
+
+Answer:
+Using Midpoint Circle Algorithm.
+
+Function:
+
+draw_circle()
+
+Plots 8 symmetric points at a time.
+
+22. What is PLOT macro?
+#define PLOT(px,py)
+
+Answer:
+It places * at valid coordinates while checking boundaries.
+
+23. How is a shape deleted?
+
+Answer:
+
+shapes[i].active = 0;
+
+The shape remains in memory but is not displayed.
+
+24. How is a shape modified?
+
+Answer:
+User enters the shape ID and new coordinates replace old coordinates.
+
+25. Why are functions used?
+
+Answer:
+Functions make code modular and reusable.
+
+Examples:
+
+draw_line()
+draw_circle()
+display_canvas()
+26. What are the advantages of this program?
+
+Answer:
+
+Menu driven
+Uses structures and unions
+Supports multiple shapes
+Shape modification
+Shape deletion
+Boundary checking
+Easy to understand
+27. Sample Viva Question
+
+Examiner: How do you draw a line from (2,3) to (8,3)?
+
+Answer:
+
+draw_line(canvas,2,3,8,3);
+
+It places * from column 2 to column 8 on row 3.
+
+28. Sample Viva Question
+
+Examiner: How do you read coordinates from the user?
+
+Answer:
+
+int x = read_int("Enter X:",0,W-1);
+int y = read_int("Enter Y:",0,H-1);
+
+This ensures valid input within canvas limits.
+
+29. Sample Viva Question
+
+Examiner: Why use a 2D array instead of a 1D array?
+
+Answer:
+Because graphics are represented in rows and columns, which naturally fit a 2D array structure.
+
+30. Sample Viva Question
+
+Examiner: What happens if coordinates exceed the canvas size?
+
+Answer:
+Boundary checking prevents drawing outside the array:
+
+if(x>=0 && x<W && y>=0 && y<H)
+
+So the program remains safe and does not crash
